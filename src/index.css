@@ -10,7 +10,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 3px solid rgb(232,232,232);
+  border-bottom: 3px solid rgb(232, 232, 232);
 }
 
 .logo-container {
@@ -38,8 +38,7 @@ nav ul li {
 }
 
 nav ul li a {
-  text-decoration: none; 
-  font-weight: bold; 
-  font-size: 16px; 
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
 }
-
