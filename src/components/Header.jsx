@@ -4,11 +4,15 @@ import logo from '../assets/planet.png';
 
 const Header = () => (
   <header>
-    <img src={logo} alt="logo" />
+    <div className="logo-container">
+      <img src={logo} alt="logo" />
+      <h1>Space Travelers&apos; Hub</h1>
+    </div>
     <nav>
       <ul>
-        <li><Link to="/missions">Missions</Link></li>
         <li><Link to="/rockets">Rockets</Link></li>
+        <li><Link to="/missions">Missions</Link></li>
+        <li><Link to="/profile">My Profile</Link></li>
       </ul>
     </nav>
   </header>
