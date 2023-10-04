@@ -11,13 +11,11 @@ const Mission = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://api.spacexdata.com/v3/rockets')
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(fetchMissions(data));
-      })
-      .catch(() => {});
-  }, [dispatch]);
+    // Fetch missions if the array is empty
+    if (missions.length === 0) {
+      dispatch(fetchMissions());
+    }
+  }, [dispatch, missions.length]);
 
   /**
    * Function to get the reservation status from local storage.
@@ -98,11 +96,11 @@ const Mission = () => {
         </table>
       )}
       {isError && (
-      <p>
-        ERROR:
-        {' '}
-        {isError}
-      </p>
+        <p>
+          ERROR:
+          {' '}
+          {isError}
+        </p>
       )}
     </section>
   );

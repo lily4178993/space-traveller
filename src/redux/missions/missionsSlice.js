@@ -31,6 +31,7 @@ const fetchMissions = createAsyncThunk('missions/fetchMissions', async () => {
  */
 const initialState = {
   missions: [],
+  missionsJoined: [],
   isLoading: false,
   isError: '',
 };
@@ -79,6 +80,7 @@ const missionsSlice = createSlice({
         if (state.isLoading === true) {
           state.isLoading = false;
           state.missions = action.payload;
+          state.missionsJoined.push(state.missions.filter((mission) => mission.reserved));
         }
       })
       .addCase(fetchMissions.rejected, (state, action) => {
