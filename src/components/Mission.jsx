@@ -1,54 +1,71 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMissions } from '../redux/missions/missionsSlice';
+import { reserveRocket, cancelReservation, fetchRockets } from '../redux/rocketActions';
+import '../rockets.css';
 
-/**
- * A React component for displaying SpaceX missions.
- * @returns {JSX.Element} The JSX representation of the Mission component.
- */
-const Mission = () => {
-  const { missions, isLoading, isError } = useSelector((state) => state.missions);
+const Rockets = () => {
   const dispatch = useDispatch();
+  const rocketData = useSelector((state) => state.rockets);
 
-  /**
-   * Fetch missions data if the missions array is empty.
-   */
   useEffect(() => {
-    if (missions.length === 0) {
-      dispatch(fetchMissions());
-    }
-  }, [dispatch, missions.length]);
+    fetch('https://api.spacexdata.com/v3/rockets')
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(fetchRockets(data));
+      })
+      .catch(() => {});
+  }, [dispatch]);
+
+  const handleReserve = (rocketId) => {
+    dispatch(reserveRocket(rocketId));
+  };
+
+  const handleCancelReservation = (rocketId) => {
+    dispatch(cancelReservation(rocketId));
+  };
 
   return (
-    <>
-      {isLoading && (<p>Loading</p>)}
-      {missions && missions.length !== 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Mission Name</th>
-              <th>Mission Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {missions.map((mission) => (
-              <tr key={mission.mission_id}>
-                <td>{mission.mission_name}</td>
-                <td>{mission.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-      {isError && (
-        <p>
-          ERROR:
-          {' '}
-          {isError}
-        </p>
-      )}
-    </>
+    <div className="roc-container">
+      {rocketData.length > 0
+        && rocketData.map((rocket) => (
+          <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`}>
+            <div className="roc-image-container">
+              <img
+                src={rocket.flickr_images[0]}
+                alt={rocket.name}
+                className="roc-image"
+              />
+            </div>
+            <div className="roc-info">
+              <div className="roc-title">
+                <h2>{rocket.rocket_name}</h2>
+              </div>
+              <p>
+                {rocket.reserved && <span className="reserved-badge">Reserved</span>}
+                {rocket.description}
+              </p>
+              {rocket.reserved ? (
+                <button
+                  type="button"
+                  className="cancel-reservation-button"
+                  onClick={() => handleCancelReservation(rocket.id)}
+                >
+                  Cancel Reservation
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="reserve-button"
+                  onClick={() => handleReserve(rocket.id)}
+                >
+                  Reserve Rocket
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+    </div>
   );
 };
 
-export default Mission;
+export default Rockets;
