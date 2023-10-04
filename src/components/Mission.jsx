@@ -9,12 +9,24 @@ import { fetchMissions, joinMission, leaveMission } from '../redux/missions/miss
 const Mission = () => {
   const { missions, isLoading, isError } = useSelector((state) => state.missions);
   const dispatch = useDispatch();
+  const rocketData = useSelector((state) => state.rockets);
 
   useEffect(() => {
-    if (missions.length === 0) {
-      dispatch(fetchMissions());
-    }
-  }, [dispatch, missions.length]);
+    fetch('https://api.spacexdata.com/v3/rockets')
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(fetchRockets(data));
+      })
+      .catch(() => {});
+  }, [dispatch]);
+
+  const handleReserve = (rocketId) => {
+    dispatch(reserveRocket(rocketId));
+  };
+
+  const handleCancelReservation = (rocketId) => {
+    dispatch(cancelReservation(rocketId));
+  };
 
   /**
    * Function to get the reservation status from local storage.
@@ -105,4 +117,4 @@ const Mission = () => {
   );
 };
 
-export default Mission;
+export default Rockets;
