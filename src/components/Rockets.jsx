@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { reserveRocket, cancelReservation } from '../redux/rocketActions';
+import { reserveRocket, cancelReservation, fetchRockets } from '../redux/rocketActions';
 import '../rockets.css';
 
 const Rockets = () => {
@@ -8,11 +8,14 @@ const Rockets = () => {
   const [rocketData, setRocketData] = useState([]);
 
   useEffect(() => {
-    fetch('https://api.spacexdata.com/v4/rockets')
+    fetch('https://api.spacexdata.com/v3/rockets')
       .then((response) => response.json())
-      .then((data) => setRocketData(data))
+      .then((data) => {
+        dispatch(fetchRockets(data));
+        setRocketData(data);
+      })
       .catch(() => {});
-  }, []);
+  }, [dispatch]);
 
   const handleReserve = (rocketId) => {
     dispatch(reserveRocket(rocketId));
