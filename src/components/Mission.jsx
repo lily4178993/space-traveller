@@ -3,10 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMissions, joinMission, leaveMission } from '../redux/missions/missionsSlice';
 import '../missions.css';
 
-/**
- * React component for displaying SpaceX missions and handling reservations.
- * @returns {JSX.Element} The JSX representation of the Mission component.
- */
 const Mission = () => {
   const { missions, isLoading, isError } = useSelector((state) => state.missions);
   const dispatch = useDispatch();
@@ -19,19 +15,12 @@ const Mission = () => {
   }, [dispatch, missions.length]);
 
   /**
-   * Function to get the reservation status from local storage.
-   * @param {number} missionID - The ID of the mission.
-   * @returns {string | null} The reservation status ('reserved' or null if not reserved).
-   */
-  const getReservationStatus = (missionID) => localStorage.getItem(`mission_${missionID}`);
-
-  /**
    * Handles the "Join Mission" button click.
    * @param {number} missionID - The ID of the mission to join.
+   * @param {string} missionName - The name of the mission.
    */
   const handleClickJoinMission = (missionID) => {
     dispatch(joinMission(missionID));
-    localStorage.setItem(`mission_${missionID}`, 'reserved');
   };
 
   /**
@@ -40,7 +29,6 @@ const Mission = () => {
    */
   const handleClickLeaveMission = (missionID) => {
     dispatch(leaveMission(missionID));
-    localStorage.removeItem(`mission_${missionID}`);
   };
 
   return (
@@ -62,13 +50,13 @@ const Mission = () => {
                 <td>{mission.mission_name}</td>
                 <td className="mission-description">{mission.description}</td>
                 <td className="mission-status">
-                  {getReservationStatus(mission.mission_id) === 'reserved' ? (
+                  {mission.reserved ? (
                     <span className="mission-status_active">Active Member</span>
                   ) : (
                     <span className="mission-status_inactive">NOT A MEMBER</span>
                   )}
                 </td>
-                {getReservationStatus(mission.mission_id) === 'reserved' ? (
+                {mission.reserved ? (
                   <td className="mission-status">
                     <button
                       type="button"
@@ -85,7 +73,9 @@ const Mission = () => {
                       type="button"
                       title="Join Mission"
                       className="mission-status_button mission-status_join"
-                      onClick={() => handleClickJoinMission(mission.mission_id)}
+                      onClick={() => handleClickJoinMission(
+                        mission.mission_id,
+                      )}
                     >
                       Join Mission
                     </button>
