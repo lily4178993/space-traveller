@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMissions, joinMission, leaveMission } from '../redux/missions/missionsSlice';
+import '../missions.css';
 
 /**
  * React component for displaying SpaceX missions and handling reservations.
@@ -46,7 +47,7 @@ const Mission = () => {
     <section className="mission-container">
       {isLoading && <p>Loading</p>}
       {missions && missions.length !== 0 && (
-        <table>
+        <table className="mission-constainer_table">
           <thead>
             <tr>
               <th>Mission</th>
