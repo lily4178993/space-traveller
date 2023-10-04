@@ -1,71 +1,111 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { reserveRocket, cancelReservation, fetchRockets } from '../redux/rocketActions';
-import '../rockets.css';
+import { fetchMissions, joinMission, leaveMission } from '../redux/missions/missionsSlice';
 
-const Rockets = () => {
+/**
+ * React component for displaying SpaceX missions and handling reservations.
+ * @returns {JSX.Element} The JSX representation of the Mission component.
+ */
+const Mission = () => {
+  const { missions, isLoading, isError } = useSelector((state) => state.missions);
   const dispatch = useDispatch();
-  const rocketData = useSelector((state) => state.rockets);
 
   useEffect(() => {
     fetch('https://api.spacexdata.com/v3/rockets')
       .then((response) => response.json())
       .then((data) => {
-        dispatch(fetchRockets(data));
+        dispatch(fetchMissions(data));
       })
       .catch(() => {});
   }, [dispatch]);
 
-  const handleReserve = (rocketId) => {
-    dispatch(reserveRocket(rocketId));
+  /**
+   * Function to get the reservation status from local storage.
+   * @param {number} missionID - The ID of the mission.
+   * @returns {string | null} The reservation status ('reserved' or null if not reserved).
+   */
+  const getReservationStatus = (missionID) => localStorage.getItem(`mission_${missionID}`);
+
+  /**
+   * Handles the "Join Mission" button click.
+   * @param {number} missionID - The ID of the mission to join.
+   */
+  const handleClickJoinMission = (missionID) => {
+    dispatch(joinMission(missionID));
+    localStorage.setItem(`mission_${missionID}`, 'reserved');
   };
 
-  const handleCancelReservation = (rocketId) => {
-    dispatch(cancelReservation(rocketId));
+  /**
+   * Handles the "Leave Mission" button click.
+   * @param {number} missionID - The ID of the mission to leave.
+   */
+  const handleClickLeaveMission = (missionID) => {
+    dispatch(leaveMission(missionID));
+    localStorage.removeItem(`mission_${missionID}`);
   };
 
   return (
-    <div className="roc-container">
-      {rocketData.length > 0
-        && rocketData.map((rocket) => (
-          <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`}>
-            <div className="roc-image-container">
-              <img
-                src={rocket.flickr_images[0]}
-                alt={rocket.name}
-                className="roc-image"
-              />
-            </div>
-            <div className="roc-info">
-              <div className="roc-title">
-                <h2>{rocket.rocket_name}</h2>
-              </div>
-              <p>
-                {rocket.reserved && <span className="reserved-badge">Reserved</span>}
-                {rocket.description}
-              </p>
-              {rocket.reserved ? (
-                <button
-                  type="button"
-                  className="cancel-reservation-button"
-                  onClick={() => handleCancelReservation(rocket.id)}
-                >
-                  Cancel Reservation
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="reserve-button"
-                  onClick={() => handleReserve(rocket.id)}
-                >
-                  Reserve Rocket
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-    </div>
+    <section className="mission-container">
+      {isLoading && <p>Loading</p>}
+      {missions && missions.length !== 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Mission</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>{' '}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {missions.map((mission) => (
+              <tr key={mission.mission_id} id={mission.mission_id}>
+                <td>{mission.mission_name}</td>
+                <td className="mission-description">{mission.description}</td>
+                <td className="mission-status">
+                  {getReservationStatus(mission.mission_id) === 'reserved' ? (
+                    <span className="mission-status_active">Active Member</span>
+                  ) : (
+                    <span className="mission-status_inactive">NOT A MEMBER</span>
+                  )}
+                </td>
+                {getReservationStatus(mission.mission_id) === 'reserved' ? (
+                  <td className="mission-status">
+                    <button
+                      type="button"
+                      title="Leave Mission"
+                      className="mission-status_button mission-status_leave"
+                      onClick={() => handleClickLeaveMission(mission.mission_id)}
+                    >
+                      Leave Mission
+                    </button>
+                  </td>
+                ) : (
+                  <td className="mission-status">
+                    <button
+                      type="button"
+                      title="Join Mission"
+                      className="mission-status_button mission-status_join"
+                      onClick={() => handleClickJoinMission(mission.mission_id)}
+                    >
+                      Join Mission
+                    </button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {isError && (
+      <p>
+        ERROR:
+        {' '}
+        {isError}
+      </p>
+      )}
+    </section>
   );
 };
 
-export default Rockets;
+export default Mission;

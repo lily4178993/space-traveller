@@ -10,7 +10,7 @@ const MISSION_API_URL = 'https://api.spacexdata.com/v3/missions';
 /**
  * An asynchronous Redux thunk action creator to fetch missions from the SpaceX API.
  *
- * @type {AsyncThunk<*, *, {}>}
+ * @type {AsyncThunk<Array, void, {}>}
  */
 const fetchMissions = createAsyncThunk('missions/fetchMissions', async () => {
   const response = await axios.get(MISSION_API_URL);
@@ -19,10 +19,15 @@ const fetchMissions = createAsyncThunk('missions/fetchMissions', async () => {
 
 /**
  * The initial state for the missions slice of the Redux store.
- * @type {Object}
+ * @typedef {Object} MissionsState
  * @property {Array} missions - The list of missions.
  * @property {boolean} isLoading - Indicates if missions are currently being loaded.
  * @property {string} isError - Stores error messages, if any.
+ */
+
+/**
+ * Initial state for the missions slice.
+ * @type {MissionsState}
  */
 const initialState = {
   missions: [],
@@ -32,12 +37,37 @@ const initialState = {
 
 /**
  * A Redux slice for missions management.
- * @type {Slice}
+ * @type {Slice<MissionsState>}
  */
 const missionsSlice = createSlice({
   name: 'missions',
   initialState,
-  reducers: {},
+  reducers: {
+    /**
+     * Reducer to mark a mission as reserved.
+     * @param {MissionsState} state - The current missions state.
+     * @param {Object} action - The action object.
+     * @param {number} action.payload - The ID of the mission to join.
+     */
+    joinMission: (state, action) => {
+      const missionId = action.payload;
+      state.missions = state.missions.map((mission) => (mission.mission_id === missionId
+        ? { ...mission, reserved: true }
+        : mission));
+    },
+    /**
+     * Reducer to mark a mission as not reserved.
+     * @param {MissionsState} state - The current missions state.
+     * @param {Object} action - The action object.
+     * @param {number} action.payload - The ID of the mission to leave.
+     */
+    leaveMission: (state, action) => {
+      const missionId = action.payload;
+      state.missions = state.missions.map((mission) => (mission.mission_id === missionId
+        ? { ...mission, reserved: false }
+        : mission));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMissions.pending, (state) => {
@@ -63,12 +93,13 @@ const missionsSlice = createSlice({
 
 /**
  * Export the fetchMissions async action creator.
- * @type {AsyncThunk<*, *, {}>}
+ * @type {AsyncThunk<Array, void, {}>}
  */
 export { fetchMissions };
 
 /**
- * Export the missions reducer.
- * @type {Reducer<Object>}
+ * Export the missions reducer and action creators.
+ * @type {Slice<MissionsState>}
  */
+export const { joinMission, leaveMission } = missionsSlice.actions;
 export default missionsSlice.reducer;
