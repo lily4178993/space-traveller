@@ -10,7 +10,7 @@ const Header = () => (
     </div>
     <nav>
       <ul>
-        <li><Link to="/rockets">Rockets</Link></li>
+        <li><Link to="/">Rockets</Link></li>
         <li><Link to="/missions">Missions</Link></li>
         <li><Link to="/profile">My Profile</Link></li>
       </ul>

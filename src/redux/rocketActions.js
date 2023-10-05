@@ -3,9 +3,9 @@ export const fetchRockets = (rockets) => ({
   payload: rockets,
 });
 
-export const reserveRocket = (rocketId) => ({
+export const reserveRocket = (rocketId, rocketTitle) => ({
   type: 'RESERVE_ROCKET',
-  payload: rocketId,
+  payload: { id: rocketId, title: rocketTitle },
 });
 
 export const cancelReservation = (rocketId) => ({

@@ -16,8 +16,8 @@ const Rockets = () => {
       .catch(() => {});
   }, [dispatch]);
 
-  const handleReserve = (rocketId) => {
-    dispatch(reserveRocket(rocketId));
+  const handleReserve = (rocketId, rocketTitle) => {
+    dispatch(reserveRocket(rocketId, rocketTitle));
   };
 
   const handleCancelReservation = (rocketId) => {
@@ -56,7 +56,7 @@ const Rockets = () => {
                 <button
                   type="button"
                   className="reserve-button"
-                  onClick={() => handleReserve(rocket.id)}
+                  onClick={() => handleReserve(rocket.id, rocket.rocket_name)}
                 >
                   Reserve Rocket
                 </button>
