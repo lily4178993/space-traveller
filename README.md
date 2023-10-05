@@ -138,7 +138,7 @@ You can deploy this project using: GitHub Pages.
 
 ## 🤝 Contributing <a name="contributing"></a>
 
-Feel free to contribute, report issues, or make feature requests – your input is appreciated!
+ - Feel free to contribute, report issues, or make feature requests – your input is appreciated!
 
 Feel free to check the [issues page](https://github.com/lily4178993/space-traveller/issues).
 
