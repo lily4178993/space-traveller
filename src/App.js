@@ -9,9 +9,22 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/missions" element={<Mission />} />
-        <Route path="/" element={<Rockets />} />
-        <Route path="/profile" element={<MyProfile />} />
+        <Route
+          path="/"
+          element={<Rockets />}
+        />
+        <Route
+          path="/rockets"
+          element={<Rockets />}
+        />
+        <Route
+          path="/missions"
+          element={<Mission />}
+        />
+        <Route
+          path="/profile"
+          element={<MyProfile />}
+        />
       </Routes>
     </div>
   );

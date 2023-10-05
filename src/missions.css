@@ -1,0 +1,61 @@
+.mission-constainer {
+  padding: 1em;
+}
+
+table.mission-constainer_table {
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.mission-constainer_table .mission-description {
+  max-width: 800px;
+}
+
+.mission-constainer_table tr {
+  width: 33%;
+}
+
+.mission-constainer_table tbody tr:nth-child(odd) {
+  background: #e6e6e6;
+}
+
+.mission-constainer_table th,
+.mission-constainer_table td {
+  text-align: left;
+  border: 1px solid var(--color-grey);
+  padding: 0.5em;
+}
+
+.mission-constainer_table td.mission-status {
+  text-align: center;
+}
+
+.mission-status_active {
+  padding: 0.2em 0.5em;
+  color: var(--color-white);
+  background: #009d9d;
+  border-radius: 4px;
+}
+
+.mission-status_inactive {
+  padding: 0.2em 0.5em;
+  color: var(--color-white);
+  background: var(--color-grey);
+  border-radius: 4px;
+}
+
+.mission-status_button {
+  background: transparent;
+  padding: 0.5em;
+  border-radius: 4px;
+}
+
+.mission-status_join {
+  border-color: var(--color-grey);
+}
+
+.mission-status_leave {
+  border-color: #ff7b7b;
+  color: #ff7b7b;
+}
