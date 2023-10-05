@@ -8,13 +8,15 @@ const Rockets = () => {
   const rocketData = useSelector((state) => state.rockets);
 
   useEffect(() => {
-    fetch('https://api.spacexdata.com/v3/rockets')
-      .then((response) => response.json())
-      .then((data) => {
-        dispatch(fetchRockets(data));
-      })
-      .catch(() => {});
-  }, [dispatch]);
+    if (rocketData.length === 0) {
+      fetch('https://api.spacexdata.com/v3/rockets')
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch(fetchRockets(data));
+        })
+        .catch(() => {});
+    }
+  }, [dispatch, rocketData.length]);
 
   const handleReserve = (rocketId, rocketTitle) => {
     dispatch(reserveRocket(rocketId, rocketTitle));
@@ -30,11 +32,7 @@ const Rockets = () => {
         && rocketData.map((rocket) => (
           <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`}>
             <div className="roc-image-container">
-              <img
-                src={rocket.flickr_images[0]}
-                alt={rocket.name}
-                className="roc-image"
-              />
+              <img src={rocket.flickr_images[0]} alt={rocket.name} className="roc-image" />
             </div>
             <div className="roc-info">
               <div className="roc-title">

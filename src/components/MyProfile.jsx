@@ -9,23 +9,27 @@ const MyProfile = () => {
 
   return (
     <div className="profile-container">
-      <h2>My Profile</h2>
+      <h2>My Rockets</h2>
       <div className="profile-content">
         <div className="reserved-rockets">
-          <table>
-            <thead>
-              <tr>
-                <th>Rocket Title</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userReservedRockets.map((rocket) => (
-                <tr key={rocket.id}>
-                  <td>{rocket.title}</td>
+          {userReservedRockets.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>{' '}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {userReservedRockets.map((rocket) => (
+                  <tr key={rocket.id}>
+                    <td style={{ border: '1px solid #ccc' }}>{rocket.title}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No rockets reserved yet!</p>
+          )}
         </div>
       </div>
     </div>
