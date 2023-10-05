@@ -61,6 +61,7 @@ const Mission = () => {
                     <button
                       type="button"
                       title="Leave Mission"
+                      data-testid="leave-mission-button"
                       className="mission-status_button mission-status_leave"
                       onClick={() => handleClickLeaveMission(mission.mission_id)}
                     >
@@ -72,6 +73,7 @@ const Mission = () => {
                     <button
                       type="button"
                       title="Join Mission"
+                      data-testid="join-mission-button"
                       className="mission-status_button mission-status_join"
                       onClick={() => handleClickJoinMission(
                         mission.mission_id,
