@@ -30,7 +30,7 @@ const Rockets = () => {
     <div className="roc-container">
       {rocketData.length > 0
         && rocketData.map((rocket) => (
-          <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`}>
+          <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`} data-testid="rocket-card">
             <div className="roc-image-container">
               <img src={rocket.flickr_images[0]} alt={rocket.name} className="roc-image" />
             </div>
