@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/planet.png';
 
 const Header = () => (
@@ -10,9 +10,21 @@ const Header = () => (
     </div>
     <nav>
       <ul>
-        <li><Link to="/">Rockets</Link></li>
-        <li><Link to="/missions">Missions</Link></li>
-        <li><Link to="/profile">My Profile</Link></li>
+        <li>
+          <NavLink exact to="/" activeClassName="active-link">
+            Rockets
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/missions" activeClassName="active-link">
+            Missions
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/profile" activeClassName="active-link">
+            My Profile
+          </NavLink>
+        </li>
       </ul>
     </nav>
   </header>
