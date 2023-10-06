@@ -116,12 +116,12 @@ You can deploy this project using: GitHub Pages.
 
 > 👤 **Nelly Telli**
 >
-> - GitHub: [@githubhandle](https://github.com/lily4178993)
-> - LinkedIn: [LinkedIn](https://www.linkedin.com/in/nelly-t-330414266/)
+> - GitHub: [@lily4178993](https://github.com/lily4178993)
+> - LinkedIn: [LinkedIn](https://www.linkedin.com/in/nellytelli/)
 
 > 👤 **Ye Min Thu**
 >
-> - GitHub: [@githubhandle](https://github.com/mryeminthu)
+> - GitHub: [@mryeminthu](https://github.com/mryeminthu)
 > - LinkedIn: [LinkedIn](https://www.linkedin.com/in/ye-min-thu-76456a214/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
