@@ -40,12 +40,24 @@ nav ul {
 }
 
 nav ul li {
-  margin-left: 27px;
+  margin-left: 1em;
 }
 
 nav ul li a {
   text-decoration: none;
   font-weight: bold;
-  font-size: 24px;
-  color: rgb(2, 144, 255);
+  font-size: 1.2rem;
+  color: #0290ff;
+  padding: 0.2em;
+}
+
+nav ul li a:hover,
+nav ul li a:active,
+nav ul li a:focus {
+  border-bottom: 1px solid #0290ff;
+}
+
+nav ul li:nth-last-child(1) {
+  padding-left: 1.2em;
+  border-left: 1px solid #969595;
 }
