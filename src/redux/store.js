@@ -1,4 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
+/* eslint-disable import/no-extraneous-dependencies */
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import missionReducer from './missions/missionsSlice';
 import rocketReducer from './rocketReducer';
 
@@ -13,6 +15,7 @@ const store = configureStore({
     missions: missionReducer,
     rockets: rocketReducer,
   },
+  middleware: [...getDefaultMiddleware(), logger],
 });
 
 export default store;
