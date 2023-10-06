@@ -12,7 +12,14 @@ const Rockets = () => {
       fetch('https://api.spacexdata.com/v3/rockets')
         .then((response) => response.json())
         .then((data) => {
-          dispatch(fetchRockets(data));
+          const filteredData = data.map((rocket) => ({
+            description: rocket.description,
+            rocket_name: rocket.rocket_name,
+            rocket_id: rocket.rocket_id,
+            flickr_images: rocket.flickr_images,
+            reserved: false,
+          }));
+          dispatch(fetchRockets(filteredData));
         })
         .catch(() => {});
     }
@@ -30,9 +37,9 @@ const Rockets = () => {
     <div className="roc-container">
       {rocketData.length > 0
         && rocketData.map((rocket) => (
-          <div key={rocket.id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`} data-testid="rocket-card">
+          <div key={rocket.rocket_id} className={`roc-card ${rocket.reserved ? 'reserved' : ''}`} data-testid="rocket-card">
             <div className="roc-image-container">
-              <img src={rocket.flickr_images[0]} alt={rocket.name} className="roc-image" />
+              <img src={rocket.flickr_images[0]} alt={rocket.rocket_name} className="roc-image" />
             </div>
             <div className="roc-info">
               <div className="roc-title">
@@ -46,7 +53,7 @@ const Rockets = () => {
                 <button
                   type="button"
                   className="cancel-reservation-button"
-                  onClick={() => handleCancelReservation(rocket.id)}
+                  onClick={() => handleCancelReservation(rocket.rocket_id)}
                 >
                   Cancel Reservation
                 </button>
@@ -54,7 +61,7 @@ const Rockets = () => {
                 <button
                   type="button"
                   className="reserve-button"
-                  onClick={() => handleReserve(rocket.id, rocket.rocket_name)}
+                  onClick={() => handleReserve(rocket.rocket_id, rocket.rocket_name)}
                 >
                   Reserve Rocket
                 </button>
