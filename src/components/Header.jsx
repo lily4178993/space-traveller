@@ -5,7 +5,7 @@ import logo from '../assets/planet.png';
 const Header = () => (
   <header>
     <div className="logo-container">
-      <img src={logo} alt="Space Travelers' Hub Logo" />
+      <img src={logo} alt="logo" />
       <h1>Space Travelers&apos; Hub</h1>
     </div>
     <nav>
