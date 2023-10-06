@@ -14,7 +14,13 @@ const MISSION_API_URL = 'https://api.spacexdata.com/v3/missions';
  */
 const fetchMissions = createAsyncThunk('missions/fetchMissions', async () => {
   const response = await axios.get(MISSION_API_URL);
-  return response.data;
+  const missionsData = response.data.map((mission) => ({
+    mission_id: mission.mission_id,
+    description: mission.description,
+    mission_name: mission.mission_name,
+    reserved: false,
+  }));
+  return missionsData;
 });
 
 /**
